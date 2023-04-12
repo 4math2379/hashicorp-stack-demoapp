@@ -1,4 +1,4 @@
-region                     = "us-east-1"
+region                     = "eu-west-3"
 hcp_region                 = "us-east-1"
 datadog_region             = "us1"
 key_pair_name              = "l-vault"

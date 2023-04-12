@@ -8,7 +8,17 @@ locals {
   database_secret_name = "postgres"
 }
 
+resource "time_sleep" "wait_for_vault" {
+  depends_on = [vault_mount.static]
+  create_duration = "30s"
+}
+
+resource "null_resource" "kv1_to_kv2_migration" {
+  depends_on = [time_sleep.wait_for_vault]
+}
+
 resource "vault_generic_secret" "postgres" {
+  depends_on = [null_resource.kv1_to_kv2_migration]
   path = "${vault_mount.static.path}/${local.database_secret_name}"
 
   data_json = <<EOT
